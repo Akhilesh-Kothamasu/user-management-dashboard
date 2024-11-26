@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import UserList from './components/UserList';
+import UserForm from './components/UserForm';
+import './App.css'
 
-function App() {
+const App = () => {
+  const [view, setView] = useState('list');
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const handleAdd = () => {
+    setCurrentUser(null);
+    setView('form');
+  };
+
+  const handleEdit = (user) => {
+    setCurrentUser(user);
+    setView('form');
+  };
+
+  const handleSubmit = () => {
+    setView('list');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {view === 'list' && <UserList onAdd={handleAdd} onEdit={handleEdit} />}
+      {view === 'form' && <UserForm user={currentUser} onSubmit={handleSubmit} />}
     </div>
   );
-}
+};
 
 export default App;
